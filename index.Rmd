@@ -1,0 +1,48 @@
+---
+title: "index"
+author: "l cleland"
+date: "24/03/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(tidyverse)
+```
+
+# My demo project
+
+This is my demo project for PSY6422 Data visualisation
+
+```{r dataimport}
+# importing of the data
+
+df <- read.csv(here("data", "per ppt step mass per region.csv"))
+#head(df) # display the top of the dataframe
+```
+
+```{r message=FALSE, warning=FALSE}
+# separate the trial number from trial column and create new column
+df <- df %>%
+  mutate(trial_num = as.numeric(str_sub(trials, 6, 7)))
+
+#class(df$trial_num)
+
+# scatter plot 
+p1 <- ggplot(df, aes(x=trial_num, y=mean, color=regions))
+p1 + geom_point(position = "jitter") + geom_smooth(method = "lm")
+
+
+p2 <- ggplot(df, aes(x=trial_num, y=mean, color=regions))
+p2 + geom_jitter(height=0, width=.1, alpha=0.3) + geom_smooth(method = "loess")
+ggsave(here("plots", "myplot.png"))
+```
+
+## Discussion
+
+Wasn't this fun?!
+
+
+
+
